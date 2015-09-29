@@ -18,6 +18,19 @@
     <clobbers target="autobots.imageResize" />
   </js-module>
 
+  <platform name="ios">
+    <config-file target="config.xml" parent="/*">
+      <feature name="ImageResize">
+        <param name="ios-package" value="ImageResize"/>
+      </feature>
+    </config-file>
+
+    <header-file src="src/ios/UIImage+Scale.h"/>
+    <source-file src="src/ios/UIImage+Scale.m"/>
+    <header-file src="src/ios/ImageResize.h"/>
+    <source-file src="src/ios/ImageResize.m"/>
+  </platform>
+
   <platform name="android">
     <config-file target="res/xml/config.xml" parent="/*">
       <feature name="ImageResize">
