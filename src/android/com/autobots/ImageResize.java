@@ -112,8 +112,8 @@ public class ImageResize extends CordovaPlugin {
                 heightFactor = widthFactor; // scale to fit width
             }
         } else {
-            widthFactor = desiredWidth;
-            heightFactor = desiredHeight;
+            widthFactor = 1.0f;
+            heightFactor = 1.0f;
         }
 
         float[] factors = {widthFactor, heightFactor};
