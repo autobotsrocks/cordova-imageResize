@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  id="com.autobots.cordova.imageResize"
+  version="0.0.1">
+  <name>Image Resize for android and ios</name>
+  <description>
+    A cordova plugin that provides the functionality to resize image on both android and ios.
+  </description>
+
+  <license>MIT</license>
+
+  <engines>
+    <engine name="cordova" version=">=3.0.0" />
+  </engines>
+
+  <js-module src="www/ImageResize.js" name="ImageResize">
+    <clobbers target="autobots.imageResize" />
+  </js-module>
+
+  <platform name="android">
+    <config-file target="res/xml/config.xml" parent="/*">
+      <feature name="ImageResize">
+        <param name="android-package" value="com.autobots.ImageResize"/>
+      </feature>
+    </config-file>
+
+    <config-file target="AndroidManifest.xml" parent="/*">
+      <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+      <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    </config-file>
+
+    <source-file src="src/android/com/autobots/ImageResize.java" target-dir="src/com/autobots"/>
+  </platform>
+</plugin>

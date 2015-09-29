@@ -13,12 +13,15 @@ cordova plugin add https://github.com/autobotsrocks/cordova-imageResize
 window.autobots.imageResize.resize(
   {
     source: '/storage/emulated/0/Pictures/hello.png',
-    quality: 65,
+    quality: 65, // Default 70
+    type: 'maxPixelResize' | 'minPixelResize', //Default maxPixelResize
     width: 80,
     height: 80
   },
-  function(filePath) {
-    alert(filePath);
+  function(response) {
+    alert(response.filePath);
+    alert(response.width);
+    alert(response.height);
   },
   function(error) {
     alert(error);
