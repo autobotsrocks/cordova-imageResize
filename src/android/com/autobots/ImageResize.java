@@ -57,7 +57,7 @@ public class ImageResize extends CordovaPlugin {
                         if (options.has("quality")) {
                             quality = options.getInt("quality");
                         }
-                        String filePath = cordova.getActivity().getApplicationContext().getCacheDir().getAbsolutePath() + "/imageResizeCache.jpg";
+                        String filePath = cordova.getActivity().getApplicationContext().getCacheDir().getAbsolutePath() + "/" + System.currentTimeMillis() + ".jpg";
                         File file = new File(filePath);
                         OutputStream outStream = new FileOutputStream(file);
                         resizedBitmap.compress(Bitmap.CompressFormat.JPEG, quality, outStream);

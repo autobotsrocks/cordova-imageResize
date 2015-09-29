@@ -20,7 +20,8 @@
 
         NSArray* paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
         NSMutableString* filePath = [NSMutableString stringWithString: [paths objectAtIndex:0]];
-        [filePath appendString:@"/imageResizeCache.jpg"];
+        [filePath appendString:@"/"];
+        [filePath appendFormat:@"%f.jpg", [[NSDate date] timeIntervalSince1970]];
 
         NSError *error = nil;
         CDVPluginResult* pluginResult = nil;
