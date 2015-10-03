@@ -39,7 +39,7 @@ public class ImageResize extends CordovaPlugin {
                             return;
                         }
 
-                        source = options.getString("source");
+                        source = options.getString("source").replace("file://", "");
                         Bitmap bitmap = BitmapFactory.decodeFile(source);
                         if (bitmap == null) {
                             callbackContext.error("Can't open file " + source);
