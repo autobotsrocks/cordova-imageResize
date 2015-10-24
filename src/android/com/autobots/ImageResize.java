@@ -3,6 +3,7 @@ package com.autobots;
 import android.graphics.Matrix;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Environment;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
@@ -48,8 +49,18 @@ public class ImageResize extends CordovaPlugin {
 
                         sourceWidth = bitmap.getWidth();
                         sourceHeight = bitmap.getHeight();
-                        float [] factors = calculateFactors(options, sourceWidth, sourceHeight);
+                        float desiredWidth = (float)options.getDouble("width");
+                        float desiredHeight = (float)options.getDouble("height");
+                        if (sourceWidth <= desiredWidth && sourceHeight <= desiredHeight) {
+                            JSONObject response = new JSONObject();
+                            response.put("filePath", "file://" + source);
+                            response.put("width", sourceWidth);
+                            response.put("height", sourceHeight);
+                            callbackContext.success(response);
+                            return;
+                        }
 
+                        float [] factors = calculateFactors(options, sourceWidth, sourceHeight);
                         Matrix matrix = new Matrix();
                         matrix.postScale(factors[0], factors[1]);
                         Bitmap resizedBitmap = Bitmap.createBitmap(bitmap, 0, 0, sourceWidth, sourceHeight, matrix, false);
@@ -57,7 +68,7 @@ public class ImageResize extends CordovaPlugin {
                         if (options.has("quality")) {
                             quality = options.getInt("quality");
                         }
-                        String filePath = cordova.getActivity().getApplicationContext().getCacheDir().getAbsolutePath() + "/" + System.currentTimeMillis() + ".jpg";
+                        String filePath = getTempDirectoryPath() + "/" + System.currentTimeMillis() + ".resize.jpg";
                         File file = new File(filePath);
                         OutputStream outStream = new FileOutputStream(file);
                         resizedBitmap.compress(Bitmap.CompressFormat.JPEG, quality, outStream);
@@ -79,6 +90,23 @@ public class ImageResize extends CordovaPlugin {
             });
         }
         return true;
+    }
+
+    private String getTempDirectoryPath() {
+        File cache = null;
+
+        // SD Card Mounted
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            cache = new File(
+                    Environment.getExternalStorageDirectory().getAbsolutePath() +
+                            "/Android/data/" + cordova.getActivity().getPackageName() + "/cache/"
+            );
+        } else {
+            // Use internal storage
+            cache = cordova.getActivity().getCacheDir();
+        }
+        cache.mkdirs();
+        return cache.getAbsolutePath();
     }
 
     private float[] calculateFactors(JSONObject options, int width, int height) throws JSONException {
