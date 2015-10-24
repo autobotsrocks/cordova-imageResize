@@ -14,6 +14,15 @@
         }
 
         UIImage* image = [UIImage imageWithContentsOfFile:source];
+        CGFloat desiredWidth = [[options objectForKey:@"width"] floatValue];
+        CGFloat desiredHeight = [[options objectForKey:@"height"] floatValue];
+        if (image.size.width <= desiredWidth && image.size.height <= desiredHeight) {
+            NSDictionary* result = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:source, image.size.width, image.size.height, nil] forKeys:[NSArray arrayWithObjects: @"filePath", @"width", @"height", nil]];
+            CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:result];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+            return;
+        }
+
         CGSize factors = [self calculateFactors:options originalWidth:image.size.width originalHeight: image.size.height];
         UIImage* resizedImage = [image scaleToSize:CGSizeMake(image.size.width * factors.width, image.size.height * factors.height)];
         NSData* resizedImageData = UIImageJPEGRepresentation(resizedImage, [[options objectForKey:@"quality"] floatValue]);
@@ -21,7 +30,7 @@
         NSArray* paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
         NSMutableString* filePath = [NSMutableString stringWithString: [paths objectAtIndex:0]];
         [filePath appendString:@"/"];
-        [filePath appendFormat:@"%f.jpg", [[NSDate date] timeIntervalSince1970]];
+        [filePath appendFormat:@"%f.resize.jpg", [[NSDate date] timeIntervalSince1970]];
 
         NSError *error = nil;
         CDVPluginResult* pluginResult = nil;
