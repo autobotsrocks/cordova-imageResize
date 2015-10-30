@@ -17,7 +17,9 @@
         CGFloat desiredWidth = [[options objectForKey:@"width"] floatValue];
         CGFloat desiredHeight = [[options objectForKey:@"height"] floatValue];
         if (image.size.width <= desiredWidth && image.size.height <= desiredHeight) {
-            NSDictionary* result = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:source, image.size.width, image.size.height, nil] forKeys:[NSArray arrayWithObjects: @"filePath", @"width", @"height", nil]];
+            NSNumber* originalWidth = [[NSNumber alloc] initWithFloat:image.size.width];
+            NSNumber* originalHeight = [[NSNumber alloc] initWithFloat:image.size.height];
+            NSDictionary* result = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:source, originalWidth, originalHeight, nil] forKeys:[NSArray arrayWithObjects: @"filePath", @"width", @"height", nil]];
             CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:result];
             [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
             return;
