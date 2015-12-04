@@ -29,6 +29,11 @@ window.autobots.imageResize.resize(
 );
 ```
 
+# Dependencies
+
+Android: [glide](https://github.com/bumptech/glide)
+
+
 # License
 
 MIT
