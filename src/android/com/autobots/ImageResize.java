@@ -41,7 +41,7 @@ public class ImageResize extends CordovaPlugin {
                                 options.getInt("height")
                         ).get();
 
-                        int quality = 75;
+                        int quality = 70;
                         if (options.has("quality")) {
                             quality = options.getInt("quality");
                         }
