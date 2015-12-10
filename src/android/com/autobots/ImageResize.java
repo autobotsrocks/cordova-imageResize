@@ -35,7 +35,7 @@ public class ImageResize extends CordovaPlugin {
                             return;
                         }
 
-                        File sourceFile = new  File(options.getString("source"));
+                        File sourceFile = new  File(options.getString("source").replace("file://", ""));
                         Bitmap bitmap = Glide.with(cordova.getActivity()).load(sourceFile).asBitmap().centerCrop().into(
                                 options.getInt("width"),
                                 options.getInt("height")
